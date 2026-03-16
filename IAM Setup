@@ -7,6 +7,6 @@ gcloud projects add-iam-policy-binding cma-prep-app \
   --member="serviceAccount:cma-backend-sa@cma-prep-app.iam.gserviceaccount.com" \
   --role="roles/cloudsql.client"
 
-gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
+gcloud projects add-iam-policy-binding cma-prep-app\
   --member="serviceAccount:cma-backend-sa@cma-prep-app.iam.gserviceaccount.com" \
   --role="roles/aiplatform.user"
