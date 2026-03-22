@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.env
+venv/
+*.egg-info/
+
+# Docker
+.dockerignore
+
+# macOS
+.DS_Store
+
+# VS Code
+.vscode/
+
+# GCP credentials - NEVER commit these
+*.json
+service-account*.json
