@@ -1,0 +1,56 @@
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'backend/**'  # only trigger on backend changes
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Configure Docker
+        run: |
+          gcloud auth configure-docker us-central1-docker.pkg.dev
+
+      - name: Build and Push Docker image
+        run: |
+          docker buildx build \
+            --platform linux/amd64 \
+            -t us-central1-docker.pkg.dev/cma-prep-app/cma-backend/api:${{ github.sha }} \
+            --push \
+            ./backend
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy cma-api \
+            --image=us-central1-docker.pkg.dev/cma-prep-app/cma-backend/api:${{ github.sha }} \
+            --platform=managed \
+            --region=us-central1 \
+            --allow-unauthenticated \
+            --service-account=cma-backend-sa@cma-prep-app.iam.gserviceaccount.com \
+            --port=8080 \
+            --set-env-vars="GCP_PROJECT_ID=cma-prep-app" \
+            --set-secrets="DATABASE_URL=cma-db-password:latest,GEMINI_API_KEY=cma-gemini-key:latest" \
+            --add-cloudsql-instances=cma-prep-app:us-central1:cma-postgres
+
+      - name: Verify deployment
+        run: |
+          URL=$(gcloud run services describe cma-api \
+            --region=us-central1 \
+            --format="value(status.url)")
+          echo "Deployed to: $URL"
+          curl -f "$URL/health"
