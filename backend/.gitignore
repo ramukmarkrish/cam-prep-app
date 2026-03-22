@@ -17,3 +17,4 @@ venv/
 # GCP credentials - NEVER commit these
 *.json
 service-account*.json
+cloud-sql-proxy
