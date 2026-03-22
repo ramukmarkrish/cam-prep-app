@@ -1,0 +1,12 @@
+# Create the service account
+gcloud iam service-accounts create cma-backend-sa \
+  --display-name="CMA App Backend"
+
+# Grant it permissions
+gcloud projects add-iam-policy-binding cma-prep-app \
+  --member="serviceAccount:cma-backend-sa@cma-prep-app.iam.gserviceaccount.com" \
+  --role="roles/cloudsql.client"
+
+gcloud projects add-iam-policy-binding cma-prep-app\
+  --member="serviceAccount:cma-backend-sa@cma-prep-app.iam.gserviceaccount.com" \
+  --role="roles/aiplatform.user"
