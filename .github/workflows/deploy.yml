@@ -44,7 +44,8 @@ jobs:
             --service-account=cma-backend-sa@cma-prep-app.iam.gserviceaccount.com \
             --port=8080 \
             --set-env-vars="GCP_PROJECT_ID=cma-prep-app" \
-            --set-secrets="DATABASE_URL=cma-db-password:latest,GEMINI_API_KEY=cma-gemini-key:latest" \
+            --set-secrets="DATABASE_URL=cma-db-password:latest" \
+            --set-secrets="GEMINI_API_KEY=cma-gemini-key:latest" \
             --add-cloudsql-instances=cma-prep-app:us-central1:cma-postgres
 
       - name: Verify deployment
