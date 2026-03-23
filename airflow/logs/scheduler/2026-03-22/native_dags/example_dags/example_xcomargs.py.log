@@ -1,0 +1,16 @@
+[2026-03-22T17:28:33.971-0500] {processor.py:161} INFO - Started process (PID=10562) to work on /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/example_xcomargs.py
+[2026-03-22T17:28:33.972-0500] {processor.py:830} INFO - Processing file /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/example_xcomargs.py for tasks to queue
+[2026-03-22T17:28:33.972-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:33.972-0500] {dagbag.py:538} INFO - Filling up the DagBag from /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/example_xcomargs.py
+[2026-03-22T17:28:33.991-0500] {processor.py:840} INFO - DAG(s) 'example_xcom_args_with_operators', 'example_xcom_args' retrieved from /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/example_xcomargs.py
+[2026-03-22T17:28:34.101-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:34.101-0500] {override.py:1769} INFO - Created Permission View: can delete on DAG:example_xcom_args_with_operators
+[2026-03-22T17:28:34.105-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:34.104-0500] {override.py:1769} INFO - Created Permission View: can edit on DAG:example_xcom_args_with_operators
+[2026-03-22T17:28:34.107-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:34.107-0500] {override.py:1769} INFO - Created Permission View: can read on DAG:example_xcom_args_with_operators
+[2026-03-22T17:28:34.112-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:34.112-0500] {override.py:1769} INFO - Created Permission View: can delete on DAG:example_xcom_args
+[2026-03-22T17:28:34.114-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:34.114-0500] {override.py:1769} INFO - Created Permission View: can edit on DAG:example_xcom_args
+[2026-03-22T17:28:34.117-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:34.117-0500] {override.py:1769} INFO - Created Permission View: can read on DAG:example_xcom_args
+[2026-03-22T17:28:34.117-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:34.117-0500] {dag.py:3036} INFO - Sync 2 DAGs
+[2026-03-22T17:28:34.121-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:34.121-0500] {dag.py:3058} INFO - Creating ORM DAG for example_xcom_args
+[2026-03-22T17:28:34.121-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:34.121-0500] {dag.py:3058} INFO - Creating ORM DAG for example_xcom_args_with_operators
+[2026-03-22T17:28:34.122-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:34.121-0500] {dag.py:3823} INFO - Setting next_dagrun for example_xcom_args to None, run_after=None
+[2026-03-22T17:28:34.122-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:34.122-0500] {dag.py:3823} INFO - Setting next_dagrun for example_xcom_args_with_operators to None, run_after=None
+[2026-03-22T17:28:34.130-0500] {processor.py:183} INFO - Processing /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/example_xcomargs.py took 0.159 seconds

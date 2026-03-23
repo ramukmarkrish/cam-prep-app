@@ -6,12 +6,19 @@ from .database import get_db
 from .gemini import generate_questions
 from pydantic import BaseModel
 from datetime import date
+from sqlalchemy import text
 
 app = FastAPI(title="CMA Prep MVP", version="1.0.0")
 
 @app.get("/health")
-def health():
-    return {"status": "healthy"}
+def health(db: Session = Depends(get_db)):
+    # Actually test DB connection
+    try:
+        db.execute(text("SELECT 1"))
+        return {"status": "healthy", "database": "connected"}
+    except Exception as e:
+        raise HTTPException(status_code=503, detail=f"DB unavailable: {str(e)}")
+
 
 @app.get("/topics")
 def get_topics(part: int = None, db: Session = Depends(get_db)):

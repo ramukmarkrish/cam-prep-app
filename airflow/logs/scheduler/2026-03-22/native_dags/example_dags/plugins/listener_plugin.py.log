@@ -1,0 +1,5 @@
+[2026-03-22T17:28:17.708-0500] {processor.py:161} INFO - Started process (PID=10460) to work on /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/plugins/listener_plugin.py
+[2026-03-22T17:28:17.709-0500] {processor.py:830} INFO - Processing file /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/plugins/listener_plugin.py for tasks to queue
+[2026-03-22T17:28:17.709-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:17.709-0500] {dagbag.py:538} INFO - Filling up the DagBag from /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/plugins/listener_plugin.py
+[2026-03-22T17:28:17.710-0500] {processor.py:842} WARNING - No viable dags retrieved from /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/plugins/listener_plugin.py
+[2026-03-22T17:28:17.743-0500] {processor.py:183} INFO - Processing /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/plugins/listener_plugin.py took 0.035 seconds

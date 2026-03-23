@@ -1,0 +1,11 @@
+[2026-03-22T17:28:56.119-0500] {processor.py:161} INFO - Started process (PID=10674) to work on /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/example_short_circuit_decorator.py
+[2026-03-22T17:28:56.119-0500] {processor.py:830} INFO - Processing file /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/example_short_circuit_decorator.py for tasks to queue
+[2026-03-22T17:28:56.120-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:56.120-0500] {dagbag.py:538} INFO - Filling up the DagBag from /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/example_short_circuit_decorator.py
+[2026-03-22T17:28:56.139-0500] {processor.py:840} INFO - DAG(s) 'example_short_circuit_decorator' retrieved from /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/example_short_circuit_decorator.py
+[2026-03-22T17:28:56.247-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:56.246-0500] {override.py:1769} INFO - Created Permission View: can delete on DAG:example_short_circuit_decorator
+[2026-03-22T17:28:56.250-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:56.250-0500] {override.py:1769} INFO - Created Permission View: can edit on DAG:example_short_circuit_decorator
+[2026-03-22T17:28:56.253-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:56.253-0500] {override.py:1769} INFO - Created Permission View: can read on DAG:example_short_circuit_decorator
+[2026-03-22T17:28:56.253-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:56.253-0500] {dag.py:3036} INFO - Sync 1 DAGs
+[2026-03-22T17:28:56.257-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:56.257-0500] {dag.py:3058} INFO - Creating ORM DAG for example_short_circuit_decorator
+[2026-03-22T17:28:56.260-0500] {logging_mixin.py:188} INFO - [2026-03-22T17:28:56.260-0500] {dag.py:3823} INFO - Setting next_dagrun for example_short_circuit_decorator to 2026-03-21 00:00:00+00:00, run_after=2026-03-22 00:00:00+00:00
+[2026-03-22T17:28:56.268-0500] {processor.py:183} INFO - Processing /Users/vaishnusrinivasan/cma-prep-app/airflow-venv/lib/python3.11/site-packages/airflow/example_dags/example_short_circuit_decorator.py took 0.150 seconds
