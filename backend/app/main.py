@@ -41,7 +41,7 @@ def get_questions(
     available = db.query(models.Question).filter(
         models.Question.topic_id == topic_id,
         models.Question.difficulty == difficulty,
-        models.Question.times_served < 3
+        models.Question.times_served < 10
     ).limit(5).all()
 
     if len(available) < 3:
