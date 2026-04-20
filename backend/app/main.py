@@ -1,4 +1,6 @@
 import os
+import time
+import logging
 from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from . import models
@@ -192,3 +194,59 @@ def get_progress(user_id: str, db: Session = Depends(get_db)):
         }
         for s in stats if s.topic_id in topics
     ]
+@app.post("/admin/generate-bulk")
+def generate_bulk(
+    topic_id: int,
+    difficulty: str = "medium",
+    count: int = 200,
+    db: Session = Depends(get_db)
+):
+    """Generate bulk questions for a topic"""
+    topic = db.query(models.Topic).filter(models.Topic.id == topic_id).first()
+    if not topic:
+        raise HTTPException(status_code=404, detail="Topic not found")
+
+    total_generated = 0
+    batches = count // 10  # 10 questions per Gemini call
+
+    for _ in range(batches):
+        try:
+            result = generate_questions(
+                topic_name=topic.name,
+                cma_part=topic.cma_part,
+                difficulty=difficulty,
+                num_questions=10
+            )
+            for q in result["questions"]:
+                question = models.Question(
+                    topic_id=topic_id,
+                    text=q["text"],
+                    type=q["type"],
+                    difficulty=q["difficulty"],
+                    explanation=q["explanation"],
+                    source="gemini"
+                )
+                db.add(question)
+                db.flush()
+
+                for i, opt in enumerate(q["options"]):
+                    answer = models.Answer(
+                        question_id=question.id,
+                        text=opt,
+                        is_correct=(i == q["correct_index"])
+                    )
+                    db.add(answer)
+
+            db.commit()
+            total_generated += len(result["questions"])
+            time.sleep(1)
+
+        except Exception as e:
+            logging.error(f"Batch failed: {str(e)}")
+            continue
+
+    return {
+        "topic": topic.name,
+        "difficulty": difficulty,
+        "questions_generated": total_generated
+    }
