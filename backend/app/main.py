@@ -32,6 +32,7 @@ def get_questions(
     topic_id: int,
     difficulty: str = "medium",
     user_id: str = "default_user",
+    limit: int = 5,
     db: Session = Depends(get_db)
 ):
     topic = db.query(models.Topic).filter(models.Topic.id == topic_id).first()
@@ -42,15 +43,15 @@ def get_questions(
         models.Question.topic_id == topic_id,
         models.Question.difficulty == difficulty,
         models.Question.times_served < 10
-    ).limit(5).all()
+    ).limit(limit).all()
 
-    if len(available) < 3:
+    if len(available) < limit:
         try:
             result = generate_questions(
                 topic_name=topic.name,
                 cma_part=topic.cma_part,
                 difficulty=difficulty,
-                num_questions=5
+                num_questions=10
             )
             for q in result["questions"]:
                 question = models.Question(
@@ -77,7 +78,7 @@ def get_questions(
             available = db.query(models.Question).filter(
                 models.Question.topic_id == topic_id,
                 models.Question.difficulty == difficulty,
-            ).limit(5).all()
+            ).limit(limit).all()
 
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Gemini error: {str(e)}")
