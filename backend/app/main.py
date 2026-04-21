@@ -5,7 +5,7 @@ from fastapi import FastAPI, Depends, HTTPException
 from sqlalchemy.orm import Session
 from . import models
 from .database import get_db
-from .gemini import generate_questions
+from .gemini import generate_questions, generate_theory_cards
 from pydantic import BaseModel
 from datetime import date
 from sqlalchemy import text
