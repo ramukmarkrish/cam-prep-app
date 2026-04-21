@@ -45,3 +45,25 @@ struct ProgressItem: Codable {
     let accuracy: Double
     let questions_seen: Int
 }
+
+struct TheoryCard: Codable, Identifiable {
+    var id = UUID()
+    let concept: String
+    let explanation: String
+    let example: String
+    let memory_trick: String
+    let formula: String?
+    let category: String
+
+    enum CodingKeys: String, CodingKey {
+        case concept, explanation, example
+        case memory_trick, formula, category
+    }
+}
+
+struct TheoryResponse: Codable {
+    let topic: String
+    let cma_part: Int
+    let icon: String?
+    let cards: [TheoryCard]
+}

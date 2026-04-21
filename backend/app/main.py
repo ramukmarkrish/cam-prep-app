@@ -29,6 +29,30 @@ def get_topics(part: int = None, db: Session = Depends(get_db)):
         query = query.filter(models.Topic.cma_part == part)
     return query.order_by(models.Topic.cma_part, models.Topic.id).all()
 
+@app.get("/topics/{topic_id}/theory")
+def get_theory_cards(
+    topic_id: int,
+    db: Session = Depends(get_db)
+):
+    topic = db.query(models.Topic).filter(models.Topic.id == topic_id).first()
+    if not topic:
+        raise HTTPException(status_code=404, detail="Topic not found")
+
+    try:
+        result = generate_theory_cards(
+            topic_name=topic.name,
+            cma_part=topic.cma_part,
+            num_cards=10
+        )
+        return {
+            "topic": topic.name,
+            "cma_part": topic.cma_part,
+            "icon": topic.icon,
+            "cards": result["cards"]
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error: {str(e)}")
+
 @app.get("/topics/{topic_id}/questions")
 def get_questions(
     topic_id: int,

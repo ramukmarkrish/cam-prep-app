@@ -32,14 +32,28 @@ class APIService: ObservableObject {
     // Fetch questions for a topic
     func getQuestions(topicId: Int, difficulty: String = "medium",
                       completion: @escaping ([Question]) -> Void) {
-        guard let url = URL(string: "\(baseURL)/topics/\(topicId)/questions?difficulty=\(difficulty)&user_id=\(userID)") else { return }
+        guard let url = URL(string: "\(baseURL)/topics/\(topicId)/questions?difficulty=\(difficulty)&user_id=\(userID)") else {
+            completion([])
+            return
+        }
         
-        URLSession.shared.dataTask(with: url) { data, _, error in
-            guard let data = data, error == nil else { return }
+        URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                print("❌ Network error: \(error)")
+                DispatchQueue.main.async { completion([]) }
+                return
+            }
+            guard let data = data else {
+                print("❌ No data")
+                DispatchQueue.main.async { completion([]) }
+                return
+            }
+            print("📦 Response: \(String(data: data, encoding: .utf8) ?? "nil")")
             if let questions = try? JSONDecoder().decode([Question].self, from: data) {
-                DispatchQueue.main.async {
-                    completion(questions)
-                }
+                DispatchQueue.main.async { completion(questions) }
+            } else {
+                print("❌ Decode failed")
+                DispatchQueue.main.async { completion([]) }
             }
         }.resume()
     }
@@ -84,6 +98,31 @@ class APIService: ObservableObject {
                 DispatchQueue.main.async {
                     completion(progress)
                 }
+            }
+        }.resume()
+    }
+    func getTheoryCards(topicId: Int, completion: @escaping (TheoryResponse?) -> Void) {
+        guard let url = URL(string: "\(baseURL)/topics/\(topicId)/theory") else {
+            completion(nil)
+            return
+        }
+
+        URLSession.shared.dataTask(with: url) { data, _, error in
+            if let error = error {
+                print("❌ Theory error: \(error)")
+                DispatchQueue.main.async { completion(nil) }
+                return
+            }
+            guard let data = data else {
+                DispatchQueue.main.async { completion(nil) }
+                return
+            }
+            print("📦 Theory response: \(String(data: data, encoding: .utf8) ?? "nil")")
+            if let response = try? JSONDecoder().decode(TheoryResponse.self, from: data) {
+                DispatchQueue.main.async { completion(response) }
+            } else {
+                print("❌ Theory decode failed")
+                DispatchQueue.main.async { completion(nil) }
             }
         }.resume()
     }

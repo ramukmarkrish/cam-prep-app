@@ -1,10 +1,3 @@
-//
-//  TopicListView.swift
-//  CMASuccess
-//
-//  Created by Ramkumar Krishnan on 2026-03-22.
-//
-
 import SwiftUI
 
 struct TopicListView: View {
@@ -22,7 +15,6 @@ struct TopicListView: View {
             Color(hex: "f5f5f5").ignoresSafeArea()
 
             VStack(spacing: 0) {
-                // Part selector
                 Picker("CMA Part", selection: $selectedPart) {
                     Text("Part 1").tag(1)
                     Text("Part 2").tag(2)
@@ -39,7 +31,7 @@ struct TopicListView: View {
                     ScrollView {
                         LazyVStack(spacing: 12) {
                             ForEach(filteredTopics) { topic in
-                                NavigationLink(destination: QuizView(
+                                NavigationLink(destination: TopicDetailView(
                                     topic: topic,
                                     apiService: apiService
                                 )) {
@@ -54,6 +46,9 @@ struct TopicListView: View {
         }
         .navigationTitle("CMA Topics")
         .navigationBarTitleDisplayMode(.large)
+        .toolbarColorScheme(.dark, for: .navigationBar)
+        .toolbarBackground(Color(hex: "1a237e"), for: .navigationBar)
+        .toolbarBackground(.visible, for: .navigationBar)
         .onAppear {
             apiService.getTopics { topics in
                 self.topics = topics
@@ -68,18 +63,16 @@ struct TopicCard: View {
 
     var body: some View {
         HStack(spacing: 16) {
-            // Icon
             Text(topic.icon ?? "📚")
                 .font(.system(size: 36))
                 .frame(width: 60, height: 60)
                 .background(Color(hex: "e8eaf6"))
                 .cornerRadius(12)
 
-            // Topic info
             VStack(alignment: .leading, spacing: 4) {
                 Text(topic.name)
                     .font(.headline)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.black)
                     .multilineTextAlignment(.leading)
 
                 if let weightage = topic.weightage {

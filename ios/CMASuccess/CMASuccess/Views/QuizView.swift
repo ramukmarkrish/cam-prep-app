@@ -19,7 +19,7 @@ struct QuizView: View {
     }
 
     var body: some View {
-        VStack(spacing: 0) {
+        Group {
             if isLoading {
                 loadingView
             } else if showSummary {
@@ -28,18 +28,37 @@ struct QuizView: View {
                     total: questions.count,
                     topic: topic.name
                 )
+            } else if questions.isEmpty {
+                // Show error instead of blank screen
+                VStack(spacing: 20) {
+                    Image(systemName: "exclamationmark.triangle")
+                        .font(.system(size: 50))
+                        .foregroundColor(.orange)
+                    Text("Could not load questions")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    Text("Please check your connection and try again")
+                        .foregroundColor(.gray)
+                        .multilineTextAlignment(.center)
+                    Button(action: loadQuestions) {
+                        Text("Try Again")
+                            .fontWeight(.semibold)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color(hex: "1a237e"))
+                            .foregroundColor(.white)
+                            .cornerRadius(12)
+                    }
+                    .padding(.horizontal)
+                }
+                .padding()
             } else if let question = currentQuestion {
-                // Top progress bar — fixed
-                progressBar
-                    .padding()
-                    .background(Color.white)
-
-                if submitResponse == nil {
-                    // Question + answers screen
-                    questionScreen(question: question)
-                } else {
-                    // Result + explanation screen
-                    resultScreen
+                // question screen
+                VStack(spacing: 0) {
+                    progressBar
+                        .padding()
+                        .background(Color.white)
+                    submitResponse == nil ? AnyView(questionScreen(question: question)) : AnyView(resultScreen)
                 }
             }
         }
@@ -55,15 +74,17 @@ struct QuizView: View {
             Spacer()
             ProgressView()
                 .scaleEffect(2)
+                .tint(Color(hex: "1a237e"))  // add this
             Text("AI generating questions...")
                 .font(.headline)
-                .foregroundColor(.secondary)
+                .foregroundColor(Color(hex: "1a237e"))
             Text("~10 seconds first time")
                 .font(.caption)
-                .foregroundColor(.secondary)
+                .foregroundColor(.gray)
             Spacer()
         }
         .frame(maxWidth: .infinity)
+        .background(Color(hex: "f5f5f5"))
     }
 
     // MARK: — Progress Bar
@@ -113,7 +134,7 @@ struct QuizView: View {
                                 HStack {
                                     Text(answer.text)
                                         .font(.body)
-                                        .foregroundColor(.primary)
+                                        .foregroundColor(.black)
                                         .multilineTextAlignment(.leading)
                                     Spacer()
                                 }
@@ -213,9 +234,17 @@ struct QuizView: View {
     func loadQuestions() {
         isLoading = true
         apiService.getQuestions(topicId: topic.id) { questions in
-            self.questions = questions
-            self.isLoading = false
-            self.startTime = Date()
+            DispatchQueue.main.async {
+                if questions.isEmpty {
+                    // Handle empty response
+                    self.isLoading = false
+                    return
+                }
+                self.questions = questions
+                self.isLoading = false
+                self.startTime = Date()
+                print("✅ Loaded \(questions.count) questions")
+            }
         }
     }
 
